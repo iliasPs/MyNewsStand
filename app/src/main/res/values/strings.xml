@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My NewsStand</string>
+    <string name="cat_eco">Economy</string>
+    <string name="cat_politics">Politics</string>
+    <string name="cat_sports">Sports</string>
+    <string name="cat_environment">Environment</string>
+</resources>
