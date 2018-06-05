@@ -1,5 +1,4 @@
 package com.example.android.mynewsstand;
-
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -8,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 
 
 
+public class NewsStandMainActivity extends AppCompatActivity  {
 
-public class NewsStandMainActivity extends AppCompatActivity {
+
+    public static final String LOG_TAG = NewsStandMainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,4 +36,7 @@ public class NewsStandMainActivity extends AppCompatActivity {
         //      by calling onPageTitle()
         tabLayout.setupWithViewPager(viewPager);
     }
+
+
+
 }
