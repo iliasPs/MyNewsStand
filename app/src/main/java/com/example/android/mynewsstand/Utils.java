@@ -172,7 +172,7 @@ public class Utils {
                 String currentDate = currentNew.getString("webPublicationDate");
 
                 // Extract the value for the key called "url"
-                String currentUrl = currentNew.getString("wenUrl");
+                String currentUrl = currentNew.getString("webUrl");
 
                 JSONObject currentThumbObj = currentNew.getJSONObject("fields");
                 String currentThumb = currentThumbObj.getString("thumbnail");
