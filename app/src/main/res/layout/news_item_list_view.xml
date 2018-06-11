@@ -8,23 +8,22 @@
     <ImageView
         android:id="@+id/newsImage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-
-        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/newsTitle"
-        android:layout_width="200dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/newsImage"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,15 +32,16 @@
 
     <TextView
         android:id="@+id/newsAuthor"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="188dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="188dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="24dp"
+        android:gravity="right"
+        android:textAllCaps="false"
+        android:textColorLink="@android:color/holo_blue_dark"
+        android:typeface="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/newsImage"
         app:layout_constraintTop_toBottomOf="@+id/newsTitle"
         tools:text="newsAuth" />
 
@@ -49,13 +49,27 @@
         android:id="@+id/newsDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="mm-dd-yyyy" />
+
+    <TextView
+        android:id="@+id/newsCategory"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="right"
+        android:text="TextView"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newsAuthor"
+        tools:text="category" />
 
 
 </android.support.constraint.ConstraintLayout>

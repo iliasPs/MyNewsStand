@@ -21,11 +21,12 @@ import java.util.List;
 public class Utils {
 
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = Utils.class.getSimpleName();
 
     private Utils() {
-
     }
 
     /**
@@ -40,7 +41,6 @@ public class Utils {
         }
         return url;
     }
-
 
     /**
      * Make an HTTP request to the given URL and return a String as the response.
@@ -71,7 +71,7 @@ public class Utils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the news JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -85,7 +85,6 @@ public class Utils {
         }
         return jsonResponse;
     }
-
 
     /**
      * Convert the {@link InputStream} into a String which contains the
@@ -106,7 +105,6 @@ public class Utils {
     }
 
 
-
     /**
      * Query the Guardian and return a list of {@link News} objects.
      */
@@ -123,7 +121,7 @@ public class Utils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Return the list of {@link Earthquake}s
+        // Return the list of {@link news}s
         return extractFeatureFromJson(jsonResponse);
     }
 
@@ -138,7 +136,7 @@ public class Utils {
             return null;
         }
 
-        // Create an empty ArrayList that we can start adding earthquakes to
+        // Create an empty ArrayList that we can start adding newss to
         List<News> news = new ArrayList<>();
 
         // Try to parse the JSON response string. If there's a problem with the way the JSON
@@ -148,19 +146,14 @@ public class Utils {
 
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(newsJSON);
-
-
             JSONObject jsonResults = baseJsonResponse.getJSONObject("response");
-
             // Extract the JSONArray associated with the key called "results",
             JSONArray newsArray = jsonResults.getJSONArray("results");
-
             // For each new in the newsArray, create an {@link News} object
             for (int i = 0; i < newsArray.length(); i++) {
                 String currentNewsAuthor;
                 // Get a single new at position i within the list of news
                 JSONObject currentNew = newsArray.getJSONObject(i);
-
 
                 // Extract the value for the key called "webTitle"
                 String currentTitle = currentNew.getString("webTitle");
@@ -168,8 +161,14 @@ public class Utils {
                 // Extract the value for the key called "place"
                 String currentCategory = currentNew.getString("sectionId");
 
-                // Extract the value for the key called "time"
-                String currentDate = currentNew.getString("webPublicationDate");
+                // Extract the Date & Time from the key called webPublicationDate
+                String currentDateTime = "";
+                if (currentNew.has("webPublicationDate")) {
+                    // after extracting the value,  Remove T & Z from the date
+                    currentDateTime = currentNew.getString("webPublicationDate").replace("T", " ").replace("Z", "");
+                    // Remove also the last 3 characters (seconds) from the time (":09")
+                    currentDateTime = currentDateTime.substring(0, currentDateTime.length() - 3);
+                }
 
                 // Extract the value for the key called "url"
                 String currentUrl = currentNew.getString("webUrl");
@@ -179,31 +178,26 @@ public class Utils {
 
                 JSONArray tagsArray = currentNew.getJSONArray("tags");
 
-                if (tagsArray.length() <1) {
+                if (tagsArray.length() < 1) {
                     currentNewsAuthor = null;
                 } else {
                     StringBuilder authorBuilder = new StringBuilder();
                     for (int y = 0; y < tagsArray.length(); y++) {
                         JSONObject name = tagsArray.getJSONObject(y);
-                        authorBuilder.append(name.getString("webTitle")).append(". ");
+                        authorBuilder.append(name.getString("webTitle")).append(" ");
                     }
                     currentNewsAuthor = authorBuilder.toString();
                 }
-
-                news.add(new News(currentThumb, currentTitle, currentNewsAuthor, currentCategory, currentDate, currentUrl));
-
+                news.add(new News(currentThumb, currentTitle, currentNewsAuthor, currentCategory, currentDateTime, currentUrl));
             }
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the news JSON results", e);
         }
-
-        // Return the list of earthquakes
+        // Return the list of newss
         return news;
     }
-
-
 }

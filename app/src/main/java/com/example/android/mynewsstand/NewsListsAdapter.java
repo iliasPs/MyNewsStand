@@ -19,28 +19,28 @@ public class NewsListsAdapter extends ArrayAdapter<News> {
 
     public static final String LOG_TAG = NewsListsAdapter.class.getSimpleName();
 
-public NewsListsAdapter (Activity context, ArrayList<News> news){
+    public NewsListsAdapter(Activity context, ArrayList<News> news) {
 
-    super(context, 0, news);
-}
+        super(context, 0, news);
+    }
 
     @NonNull
     @Override
-    public View getView (int position, @Nullable View convertView, @NonNull ViewGroup parent){
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         View listItemView = convertView;
-        if (listItemView == null);{
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.news_item_list_view, parent, false);}
-
+        if (listItemView == null) ;
+        {
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.news_item_list_view, parent, false);
+        }
 
         News currentNew = getItem(position);
-
         ImageView newsImage = listItemView.findViewById(R.id.newsImage);
 
-        if(currentNew.getNewsImage()!= null){
-        Log.i(LOG_TAG, "test: image url =" +currentNew.getNewsImage());
-            Picasso.with(getContext()).load(currentNew.getNewsImage()).resize(450,300).error(R.drawable.ic_launcher_background).into(newsImage);}
-        else{
+        if (currentNew.getNewsImage() != null) {
+            Log.i(LOG_TAG, "test: image url =" + currentNew.getNewsImage());
+            Picasso.with(getContext()).load(currentNew.getNewsImage()).resize(300, 250).error(R.drawable.ic_launcher_background).into(newsImage);
+        } else {
             Log.i(LOG_TAG, "test: image url is null");
             newsImage.setVisibility(View.GONE);
         }
@@ -55,8 +55,10 @@ public NewsListsAdapter (Activity context, ArrayList<News> news){
         TextView newsDate = listItemView.findViewById(R.id.newsDate);
         newsDate.setText(currentNew.getNewsDate());
 
+        TextView newsCategory = listItemView.findViewById(R.id.newsCategory);
+        newsCategory.setText(currentNew.getNewsCategory());
+
         return listItemView;
     }
-
 
 }

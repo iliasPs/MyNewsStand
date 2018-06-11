@@ -1,8 +1,10 @@
 package com.example.android.mynewsstand;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,16 +22,16 @@ import java.util.List;
 
 public class PoliticsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    public PoliticsFragment() {
-     // Required empty public constructor
-    }
-
-
-    /** Adapter for the list of news*/
-    private NewsListsAdapter mAdapter;
-    private static final String GUARDIAN_QUERY = "https://content.guardianapis.com/search?q=politics&show-elements=image&api-key=test&show-fields=thumbnail&show-tags=contributor&order-by=newest";
     public static final String LOG_TAG = SportsFragment.class.getName();
+    private static final String GUARDIAN_QUERY = "https://content.guardianapis.com/search?q=politics&show-elements=image&api-key=test&show-fields=thumbnail&show-tags=contributor&order-by=newest";
     public TextView mEmptyStateTextView;
+    /**
+     * Adapter for the list of news
+     */
+    private NewsListsAdapter mAdapter;
+    public PoliticsFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,11 +42,31 @@ public class PoliticsFragment extends Fragment implements LoaderManager.LoaderCa
 
         ListView listView = (ListView) rootView.findViewById(R.id.list);
 
-        mEmptyStateTextView= (TextView) rootView.findViewById(R.id.empty_view);
+        mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
         listView.setEmptyView(mEmptyStateTextView);
 
         mAdapter = new NewsListsAdapter(getActivity(), news);
         listView.setAdapter(mAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                // Find the current news story that was clicked on
+                News currentNew = mAdapter.getItem(position);
+
+                // Convert the String URL into a URI object (to pass into the Intent constructor)
+                Uri newsUri = Uri.parse(currentNew.getNewsUrl());
+
+                // Create a new intent to view the news URI
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
+
+                // Send the intent to launch a new activity
+                startActivity(websiteIntent);
+
+            }
+        });
+
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -60,8 +83,7 @@ public class PoliticsFragment extends Fragment implements LoaderManager.LoaderCa
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
             loaderManager.initLoader(0, null, this).forceLoad();
-        }else{
-
+        } else {
             // Otherwise, display error
             // First, hide loading indicator so error message will be visible
             View loadingIndicator = rootView.findViewById(R.id.loading_indicator);
@@ -78,9 +100,10 @@ public class PoliticsFragment extends Fragment implements LoaderManager.LoaderCa
         Log.i(LOG_TAG, "test: onCreateLoader() called...");
         return new NewsLoader(getActivity().getApplication(), GUARDIAN_QUERY);
     }
+
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
-        // Clear the adapter of previous earthquake data
+        // Clear the adapter of previous news data
         Log.i(LOG_TAG, "test onLoadFinished() called...");
         mAdapter.clear();
 
@@ -90,10 +113,10 @@ public class PoliticsFragment extends Fragment implements LoaderManager.LoaderCa
 
         loadingIndicator.setVisibility(View.GONE);
 
-        // Set empty state text to display "No earthquakes found."
+        // Set empty state text to display "No newss found."
         mEmptyStateTextView.setText(R.string.no_news);
 
-        // Clear the adapter of previous earthquake data
+        // Clear the adapter of previous news data
         mAdapter.clear();
 
         // If there is a valid list of {@link News}s, then add them to the adapter's
@@ -102,13 +125,13 @@ public class PoliticsFragment extends Fragment implements LoaderManager.LoaderCa
             mAdapter.addAll(news);
         }
     }
+
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         // Loader reset, so we can clear out our existing data.
         Log.i(LOG_TAG, "test: onLoaderReset() called...");
         mAdapter.clear();
     }
-
 
 
 }

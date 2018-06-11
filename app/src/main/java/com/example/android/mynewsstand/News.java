@@ -10,8 +10,7 @@ public class News {
     private String mNewsDate;
     private String mNewsUrl;
 
-    public News(String newsImage, String newsHeader,  String newsAuthor, String newsCategory, String newsDate, String newsUrl){
-
+    public News(String newsImage, String newsHeader, String newsAuthor, String newsCategory, String newsDate, String newsUrl) {
 
         mNewsImage = newsImage;
         mNewsHeader = newsHeader;
@@ -19,14 +18,11 @@ public class News {
         mNewsCategory = newsCategory;
         mNewsDate = newsDate;
         mNewsUrl = newsUrl;
-
     }
 
     public String getNewsHeader() {
         return mNewsHeader;
     }
-
-
 
     public String getNewsAuthor() {
         return mNewsAuthor;

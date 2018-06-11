@@ -11,29 +11,29 @@ public class NewsCategoryAdapter extends FragmentPagerAdapter {
     private Context mContext;
 
 
-    public NewsCategoryAdapter(Context context, FragmentManager fm){
+    public NewsCategoryAdapter(Context context, FragmentManager fm) {
 
         super(fm);
         mContext = context;
     }
 
-
     @Override
-    public Fragment getItem(int position){
+    public Fragment getItem(int position) {
 
-        if(position == 0){
+        if (position == 0) {
             return new EconomyFragment();
-        }else if(position == 1){
+        } else if (position == 1) {
             return new PoliticsFragment();
-        }else if(position == 2){
+        } else if (position == 2) {
             return new SportsFragment();
-        }else{
+        } else {
             return new ScienceFragment();
         }
     }
 
-
-    public int getCount(){return 4;}
+    public int getCount() {
+        return 4;
+    }
 
     @Override
     public CharSequence getPageTitle(int position) {
@@ -47,4 +47,5 @@ public class NewsCategoryAdapter extends FragmentPagerAdapter {
             return mContext.getString(R.string.cat_science);
         }
 
-}}
+    }
+}
