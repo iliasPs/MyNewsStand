@@ -28,7 +28,7 @@ public class NewsCategoryAdapter extends FragmentPagerAdapter {
         }else if(position == 2){
             return new SportsFragment();
         }else{
-            return new EnvironmentFragment();
+            return new ScienceFragment();
         }
     }
 
@@ -44,7 +44,7 @@ public class NewsCategoryAdapter extends FragmentPagerAdapter {
         } else if (position == 2) {
             return mContext.getString(R.string.cat_sports);
         } else {
-            return mContext.getString(R.string.cat_environment);
+            return mContext.getString(R.string.cat_science);
         }
 
 }}

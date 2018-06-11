@@ -7,12 +7,12 @@
 
     <ImageView
         android:id="@+id/newsImage"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/newsTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
@@ -34,10 +34,13 @@
     <TextView
         android:id="@+id/newsAuthor"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginLeft="188dp"
+        android:layout_marginRight="16dp"
         android:layout_marginStart="188dp"
         android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/newsImage"
         app:layout_constraintTop_toBottomOf="@+id/newsTitle"
         tools:text="newsAuth" />

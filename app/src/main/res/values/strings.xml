@@ -3,5 +3,7 @@
     <string name="cat_eco">Economy</string>
     <string name="cat_politics">Politics</string>
     <string name="cat_sports">Sports</string>
-    <string name="cat_environment">Environment</string>
+    <string name="cat_science">Environment</string>
+    <string name="no_news">No News Found!</string>
+    <string name="no_internet_connection">Please check your Internet connection!</string>
 </resources>

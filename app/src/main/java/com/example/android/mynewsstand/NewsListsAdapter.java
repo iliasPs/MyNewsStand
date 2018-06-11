@@ -1,10 +1,9 @@
 package com.example.android.mynewsstand;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class NewsListsAdapter extends ArrayAdapter<News> {
+
+    public static final String LOG_TAG = NewsListsAdapter.class.getSimpleName();
 
 public NewsListsAdapter (Activity context, ArrayList<News> news){
 
@@ -36,14 +36,15 @@ public NewsListsAdapter (Activity context, ArrayList<News> news){
         News currentNew = getItem(position);
 
         ImageView newsImage = listItemView.findViewById(R.id.newsImage);
-        try {
-            URL url = new URL(currentNew.getNewsImage());
-            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            newsImage.setImageBitmap(bmp);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }catch (IOException e) {
+
+        if(currentNew.getNewsImage()!= null){
+        Log.i(LOG_TAG, "test: image url =" +currentNew.getNewsImage());
+            Picasso.with(getContext()).load(currentNew.getNewsImage()).resize(450,300).error(R.drawable.ic_launcher_background).into(newsImage);}
+        else{
+            Log.i(LOG_TAG, "test: image url is null");
+            newsImage.setVisibility(View.GONE);
         }
+//        Picasso.with(getContext()).load(currentNew.getNewsImage()).fit().centerCrop().into(newsImage);
 
         TextView newsTitle = listItemView.findViewById(R.id.newsTitle);
         newsTitle.setText(currentNew.getNewsHeader());
@@ -56,4 +57,6 @@ public NewsListsAdapter (Activity context, ArrayList<News> news){
 
         return listItemView;
     }
+
+
 }
