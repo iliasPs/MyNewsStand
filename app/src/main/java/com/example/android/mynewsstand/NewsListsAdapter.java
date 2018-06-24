@@ -39,7 +39,7 @@ public class NewsListsAdapter extends ArrayAdapter<News> {
 
         if (currentNew.getNewsImage() != null) {
             Log.i(LOG_TAG, "test: image url =" + currentNew.getNewsImage());
-            Picasso.with(getContext()).load(currentNew.getNewsImage()).resize(300, 250).error(R.drawable.ic_launcher_background).into(newsImage);
+            Picasso.with(getContext()).load(currentNew.getNewsImage()).resize(300, 250).into(newsImage);
         } else {
             Log.i(LOG_TAG, "test: image url is null");
             newsImage.setVisibility(View.GONE);
