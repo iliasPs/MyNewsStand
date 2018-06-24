@@ -65,6 +65,7 @@ public class Utils {
             // If the request was successful (response code 200),
             // then read the input stream and parse the response.
             if (urlConnection.getResponseCode() == 200) {
+                Log.i(LOG_TAG, "test : connection response is " + urlConnection.getResponseMessage());
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {

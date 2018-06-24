@@ -2,10 +2,12 @@ package com.example.android.mynewsstand;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -22,8 +24,8 @@ import java.util.List;
 
 public class PoliticsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    public static final String LOG_TAG = SportsFragment.class.getName();
-    private static final String GUARDIAN_QUERY = "https://content.guardianapis.com/search?q=politics&show-elements=image&api-key=test&show-fields=thumbnail&show-tags=contributor&order-by=newest";
+    public static final String LOG_TAG = PoliticsFragment.class.getName();
+    private static final String GUARDIAN_QUERY_POLITICS = "https://content.guardianapis.com/search?q=politics&show-elements=image&api-key=f809e8e1-c6c7-43c4-96ab-be193527023e&show-fields=thumbnail&show-tags=contributor";
     public TextView mEmptyStateTextView;
     /**
      * Adapter for the list of news
@@ -54,13 +56,10 @@ public class PoliticsFragment extends Fragment implements LoaderManager.LoaderCa
 
                 // Find the current news story that was clicked on
                 News currentNew = mAdapter.getItem(position);
-
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
                 Uri newsUri = Uri.parse(currentNew.getNewsUrl());
-
                 // Create a new intent to view the news URI
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
-
                 // Send the intent to launch a new activity
                 startActivity(websiteIntent);
 
@@ -98,7 +97,32 @@ public class PoliticsFragment extends Fragment implements LoaderManager.LoaderCa
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
         // Create a new loader for the given URL
         Log.i(LOG_TAG, "test: onCreateLoader() called...");
-        return new NewsLoader(getActivity().getApplication(), GUARDIAN_QUERY);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplication());
+
+        // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
+        String minStories = sharedPrefs.getString(
+                getString(R.string.settings_min_articles_key),
+                getString(R.string.settings_min_articles_default));
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+
+        // parse breaks apart the URI string that's passed into its parameter
+        Uri baseUri = Uri.parse(GUARDIAN_QUERY_POLITICS);
+
+        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        // Append query parameter and its value.
+        uriBuilder.appendQueryParameter("page-size", minStories);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+
+        Log.i(LOG_TAG, "test: url is " +uriBuilder.toString());
+
+        return new NewsLoader(getActivity().getApplication(), uriBuilder.toString());
     }
 
     @Override
